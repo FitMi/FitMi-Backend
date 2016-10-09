@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
   wechat: {}
 });
 
-
 UserSchema.statics.findOrCreate = function (filters, cb) {
   User = this;
   this.find(filters, function(err, results) {
