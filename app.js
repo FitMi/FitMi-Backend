@@ -1,4 +1,7 @@
-require('dotenv').config(); // load env
+// load env
+require('dotenv').config();
+
+// load dependencies
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,9 +11,15 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
 var config = require('./config/config');
-var api = require('./routes/api');
-
+var passport = require('passport');
 var app = express();
+
+// Connect to the beerlocker MongoDB
+mongoose.connect(config.db_uri, config.db_options);
+mongoose.Promise = Promise;
+
+// load routes
+require('./routes/routes')(app, passport, mongoose);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,58 +32,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/api', api);
-
-// Connect to the beerlocker MongoDB
-mongoose.connect(config.db_uri, config.db_options);
-mongoose.Promise = Promise;
-
-////////////
-  var User = mongoose.model('User');
-  var passport = require('passport');
-  var FacebookStrategy = require('passport-facebook').Strategy
-  options = {
-    clientID: '1768015020120341',
-    clientSecret: '65bc3ea9e559247fab5544eb6eb5b191',
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
-  };
-  passport.use(
-    new FacebookStrategy(
-      options,
-      function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate(
-          { facebook: profile },
-          function (err, result) {
-            if(result) {
-              result.access_token = accessToken;
-              result.facebook = profile
-              result.save(function(err, doc) {
-              done(err, doc);
-            });
-          } else {
-            done(err, result);
-          }
-         }
-        );
-      }
-    )
-  );
-  app.get(
-    '/auth/facebook',
-    passport.authenticate('facebook', { session: false, scope: [] })
-  );
-  app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { session: false, failureRedirect: "/" }),
-    function(req, res) {
-      res.redirect("/profile?access_token=" + req.user.access_token);
-    }
-  );
-  app.get('/', function(req, res) {
-        res.send('<a href="/auth/facebook">Log in</a>');
-    }
-  );
-////////////
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
