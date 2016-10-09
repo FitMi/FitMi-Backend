@@ -1,13 +1,15 @@
 'use strict';
 
 var users = require('../controllers/userController');
+require('dotenv').config();
+
 // var mi = require('../controllers/mis');
 module.exports = function (app, passport, mongoose) {
   var User = mongoose.model('User');
   var FacebookStrategy = require('passport-facebook').Strategy;
   var options = {
-    clientID: '1768015020120341',
-    clientSecret: '65bc3ea9e559247fab5544eb6eb5b191',
+    clientID: process.env.FACEBOOK_CLIENTID,
+    clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: 'http://localhost:3000/auth/facebook/callback'
   };
 
