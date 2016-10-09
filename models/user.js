@@ -12,4 +12,5 @@ var UserSchema = new mongoose.Schema({
   wechat: {}
 });
 
-mongoose.model('User', UserSchema);
+
+module.exports = mongoose.model('User', UserSchema);
