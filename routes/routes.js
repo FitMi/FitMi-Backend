@@ -1,15 +1,15 @@
 'use strict';
 
 var users = require('../controllers/userController');
-require('dotenv').config();
+var config = require('../config/config');
 
 // var mi = require('../controllers/mis');
 module.exports = function (app, passport, mongoose) {
   var User = mongoose.model('User');
   var FacebookStrategy = require('passport-facebook').Strategy;
   var options = {
-    clientID: process.env.FACEBOOK_CLIENTID,
-    clientSecret: process.env.FACEBOOK_SECRET,
+    clientID: config.facebook_clientid,
+    clientSecret: config.facebook_secret,
     callbackURL: 'http://localhost:3000/auth/facebook/callback'
   };
 
@@ -51,7 +51,7 @@ module.exports = function (app, passport, mongoose) {
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { session: false, failureRedirect: "/" }),
     function(req, res) {
-      res.redirect("/profile?access_token=" + req.user.access_token);
+      res.send("auth success");
     }
   );
   

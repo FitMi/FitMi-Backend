@@ -3,5 +3,7 @@ module.exports = {
   db_options: {
     user: process.env.DB_USER || '',
     pass: process.env.DB_PWD || ''
-  }
+  },
+  facebook_clientid: process.env.FACEBOOK_CLIENTID,
+  facebook_secret: process.env.FACEBOOK_SECRET
 };
