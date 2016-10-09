@@ -22,10 +22,56 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', api);
+app.use('/api', api);
 
 // Connect to the beerlocker MongoDB
 mongoose.connect('mongodb://localhost:27017/FitMe');
+
+////////////
+  var User = mongoose.model('User');
+  var passport = require('passport');
+  var FacebookStrategy = require('passport-facebook').Strategy
+  options = {
+    clientID: '1768015020120341',
+    clientSecret: '65bc3ea9e559247fab5544eb6eb5b191',
+    callbackURL: 'http://localhost:3000/auth/facebook/callback'
+  };
+  passport.use(
+    new FacebookStrategy(
+      options,
+      function(accessToken, refreshToken, profile, done) {
+        User.findOrCreate(
+          { facebook: profile },
+          function (err, result) {
+            if(result) {
+              result.access_token = accessToken;
+              result.facebook = profile
+              result.save(function(err, doc) {
+              done(err, doc);
+            });
+          } else {
+            done(err, result);
+          }
+         }
+        );
+      }
+    )
+  );
+  app.get(
+    '/auth/facebook',
+    passport.authenticate('facebook', { session: false, scope: [] })
+  );
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { session: false, failureRedirect: "/" }),
+    function(req, res) {
+      res.redirect("/profile?access_token=" + req.user.access_token);
+    }
+  );
+  app.get('/', function(req, res) {
+        res.send('<a href="/auth/facebook">Log in</a>');
+    }
+  );
+////////////
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -57,6 +103,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
