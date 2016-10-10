@@ -1,4 +1,4 @@
-// load env
+// Load environmental variables
 require('dotenv').config();
 
 // load dependencies
@@ -11,7 +11,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
 var config = require('./config/config');
-var passport = require('passport');
 var app = express();
 
 // Connect to the beerlocker MongoDB
@@ -19,7 +18,8 @@ mongoose.connect(config.db_uri, config.db_options);
 mongoose.Promise = Promise;
 
 // load routes
-require('./routes/routes')(app, passport, mongoose);
+var routes = require('./routes/routes');
+app.use('/', routes);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
