@@ -2,6 +2,8 @@ var graph = require('fbgraph');
 var User = require('../models/user');
 
 exports.authenticate = function (req, res) {
+  console.log(req.body)
+  
   if (!req.body.token) {
     return res.status(400).json({
       message: 'Invalid authenticate data.'
@@ -32,10 +34,11 @@ exports.authenticate = function (req, res) {
             facebookId: response.id
           });
           var promise = newUser.save()
-          promise.then(function(user) {
+          promise
+          .then(function(user) {
             return res.json(user.generateJwt());
-          });
-          promise.fail(function(error) {
+          })
+          .catch(function(error) {
             return res.status(500).json({
               message: error.message
             });
