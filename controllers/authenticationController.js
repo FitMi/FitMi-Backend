@@ -2,12 +2,15 @@ var graph = require('fbgraph');
 var User = require('../models/user');
 
 exports.authenticate = function (req, res) {
+  console.log('hello')
+  console.log(req.body)
   if (!req.body.token) {
     return res.status(400).json({
       message: 'Invalid authenticate data.'
     });
   }
   var facebookToken = req.body.token;
+  console.log(facebookToken)
   graph.get("/me?fields=name,id,email&access_token=" + facebookToken, function (error, response) {
     if (error) {
       return res.status(400).json({
