@@ -5,7 +5,6 @@ var User = mongoose.model('User');
 var graph = require('fbgraph');
 
 exports.getUser = function(req, res) {
-	console.log(req)
 	User.findOne(
     {
       '_id': req.params.id
