@@ -5,10 +5,12 @@ var mongoose = require('mongoose');
 
 // User Schema
 var UserSchema = new mongoose.Schema({
-  username: { type: String, default: '' },
-  spritename: { type: String, default: '' },
-  facebookId: { type: String, default: '' },
-  wechatId: { type: String, default: '' },
+  username: String,
+  spritename: String,
+  facebookToken: String,
+  facebookId: String,
+  wechatToken: String,
+  wechatId: String,
   strength: Number,
   stamina: Number,
   agility: Number,
