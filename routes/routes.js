@@ -5,6 +5,7 @@ var config = require('../config/config');
 // var models  = require('../models');
 var authCtrl = require('../controllers/authenticationController');
 var userCtrl = require('../controllers/userController');
+var combatCtrl = require('../controllers/combatController');
 
 // Set up token authenticate
 var verifyToken = jwt({secret: config.secret});
@@ -29,5 +30,9 @@ router.get('/users/:id', verifyToken, userCtrl.getUser);
 router.post('/users/:id', verifyToken, userCtrl.updateUser);
 // Get friends
 router.get('/users/:id/friends', verifyToken, userCtrl.getFriends);
+// Add combat
+// router.get('/combat/create', verifyToken, combatCtrl.createCombat);
+// Get combat
+router.get('/combat/:id', verifyToken, combatCtrl.getCombat);
 
 module.exports = router;
