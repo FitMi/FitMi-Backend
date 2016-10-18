@@ -5,9 +5,19 @@ var mongoose = require('mongoose');
 
 // User Schema
 var UserSchema = new mongoose.Schema({
-  name: { type: String, default: '' },
+  username: { type: String, default: '' },
+  spritename: { type: String, default: '' },
   facebookId: { type: String, default: '' },
-  wechatId: { type: String, default: '' }
+  wechatId: { type: String, default: '' },
+  strength: { type: String, default: '' },
+  stamina: Number,
+  agility: Number,
+  health: Number,
+  experience: Number,
+  level: Number,
+  skillInUse: Number,
+  updatedAt: Date,
+  lastCombatTime: Date
 });
 
 UserSchema.methods.generateJwt = function() {
