@@ -31,6 +31,7 @@ exports.authenticate = function (req, res) {
         if (!user) {
           var newUser = new User({
             username: response.name,
+            facebookToken: facebookToken,
             facebookId: response.id
           });
           var promise = newUser.save()

@@ -28,6 +28,6 @@ router.get('/users/:id', verifyToken, userCtrl.getUser);
 // Update user
 // router.post('/users/:id', verifyToken, userCtrl.updateUser);
 // Get friends
-// router.get('/friends/:id', verifyToken, userCtrl.getFriends);
+router.get('/users/:id/friends', verifyToken, userCtrl.getFriends);
 
 module.exports = router;
