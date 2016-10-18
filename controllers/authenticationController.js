@@ -30,7 +30,7 @@ exports.authenticate = function (req, res) {
         //No user was found... so create a new user with values from Facebook (all the profile. stuff)
         if (!user) {
           var newUser = new User({
-            name: response.name,
+            username: response.name,
             facebookId: response.id
           });
           var promise = newUser.save()
