@@ -27,25 +27,19 @@ exports.getUser = function(req, res) {
   });
 };
 
-/*
 exports.updateUser = function(req, res) {
-	User.findOne(
-    {
-      '_id': req
-    }, function(err, user) {
-      if (err) {
-        return res.status(500).json({
-          message: err.message
-        });
-      }
-      if (!user) {
-      } else {
-        //found user. Return
-        return res.json(user.generateJwt());
-      }
-  });
+	var query = { '_id': req.params.id };
+	User.findOneAndUpdate(query, req.body.newData, { upsert:true }, function(err, user) {
+	    if (err) {
+	    	return res.status(500).json({
+         	message: err.message
+        })
+	    }
+	    res.send({
+				status: "ok",
+			});
+	});
 }
-*/
 
 exports.getFriends = function(req, res) {
 	User.findOne(

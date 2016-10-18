@@ -26,7 +26,7 @@ router.get('/me', verifyToken, function(req, res) {
 // Get user
 router.get('/users/:id', verifyToken, userCtrl.getUser);
 // Update user
-// router.post('/users/:id', verifyToken, userCtrl.updateUser);
+router.post('/users/:id', verifyToken, userCtrl.updateUser);
 // Get friends
 router.get('/users/:id/friends', verifyToken, userCtrl.getFriends);
 
