@@ -23,4 +23,11 @@ router.get('/me', verifyToken, function(req, res) {
   res.send(req.user);
 });
 
+// Get user
+router.get('/users/:id', verifyToken, userCtrl.getUser);
+// Update user
+// router.post('/users/:id', verifyToken, userCtrl.updateUser);
+// Get friends
+// router.get('/friends/:id', verifyToken, userCtrl.getFriends);
+
 module.exports = router;

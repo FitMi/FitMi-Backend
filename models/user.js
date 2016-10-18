@@ -9,7 +9,7 @@ var UserSchema = new mongoose.Schema({
   spritename: { type: String, default: '' },
   facebookId: { type: String, default: '' },
   wechatId: { type: String, default: '' },
-  strength: { type: String, default: '' },
+  strength: Number,
   stamina: Number,
   agility: Number,
   health: Number,
@@ -23,13 +23,14 @@ var UserSchema = new mongoose.Schema({
 UserSchema.methods.generateJwt = function() {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
-
-  return jwt.sign({
+  var token = jwt.sign({
     _id: this._id,
-    name: this.name,
+    name: this.username,
     fbId: this.facebookId,
     exp: parseInt(expiry.getTime() / 1000)
-  }, config.secret);
+  }, config.secret)
+  console.log(token)
+  return token;
 };
 
 module.exports = mongoose.model('User', UserSchema);
