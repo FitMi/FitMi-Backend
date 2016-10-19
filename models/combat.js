@@ -13,13 +13,14 @@ var CombatSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
   },
-  winner: Number,
+  winner: String,
   moves: [{
+      attackUser: Number,
       skillId: Number,
-      fromUser: Number,
-      toUser: Number,
+      defenceUser: Number,
       damage: Number,
-      healing: Number
+      healing: Number,
+      nextMoveResumeTime: Number
   }]
 });
 
