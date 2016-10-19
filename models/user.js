@@ -31,7 +31,6 @@ UserSchema.methods.generateJwt = function() {
     fbId: this.facebookId,
     exp: parseInt(expiry.getTime() / 1000)
   }, config.secret)
-  console.log(token)
   return token;
 };
 
