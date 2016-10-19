@@ -3,7 +3,6 @@ var config = require('../config/config');
 var mongoose = require('mongoose');
 var Combat = mongoose.model('Combat');
 
-
 exports.createCombat = function(req, res) {
 	var newCombat = new Combat(req.body.combat);
   var promise = newCombat.save()

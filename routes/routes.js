@@ -6,6 +6,7 @@ var config = require('../config/config');
 var authCtrl = require('../controllers/authenticationController');
 var userCtrl = require('../controllers/userController');
 var combatCtrl = require('../controllers/combatController');
+var skillCtrl = require('../controllers/skillController');
 
 // Set up token authenticate
 var verifyToken = jwt({secret: config.secret});
@@ -31,8 +32,10 @@ router.post('/users/:id', verifyToken, userCtrl.updateUser);
 // Get friends
 router.get('/users/:id/friends', verifyToken, userCtrl.getFriends);
 // Add combat
-router.post('/combat/create', verifyToken, combatCtrl.createCombat);
+router.post('/combats/create', verifyToken, combatCtrl.createCombat);
 // Get combat
-router.get('/combat/:id', verifyToken, combatCtrl.getCombat);
+router.get('/combats/:id', verifyToken, combatCtrl.getCombat);
+// Add combat
+router.post('/skills/create', verifyToken, skillCtrl.createSkill);
 
 module.exports = router;
