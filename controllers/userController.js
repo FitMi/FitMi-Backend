@@ -27,7 +27,9 @@ exports.getUser = function(req, res) {
 };
 
 exports.updateUser = function(req, res) {
-	var query = { '_id': req.params.id };
+	var token = req.headers.authorization.replace("Bearer ", "");
+	var decoded = jwt.verify(token, config.secret);
+	var query = { '_id': decoded._id };
 	User.findOneAndUpdate(query, req.body.newData, { upsert:true }, function(err, user) {
 	    if (err) {
 	    	return res.status(500).json({
@@ -41,9 +43,11 @@ exports.updateUser = function(req, res) {
 }
 
 exports.getFriends = function(req, res) {
+	var token = req.headers.authorization.replace("Bearer ", "");
+	var decoded = jwt.verify(token, config.secret);
 	User.findOne(
     {
-      '_id': req.params.id
+      '_id': decoded._id
     }, function(err, user) {
       if (err) {
         return res.status(500).json({
