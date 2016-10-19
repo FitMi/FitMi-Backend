@@ -3,7 +3,7 @@ var config = require('../config/config');
 var mongoose = require('mongoose');
 
 // Skill Schema
-var SkillSchema = new mongoose.Schema({fromUser: {
+var SkillSchema = new mongoose.Schema({
 	name: String,
 	strengthFactor: Number,
 	staminaFactor: Number,

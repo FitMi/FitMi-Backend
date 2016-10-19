@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('express-jwt');
 var config = require('../config/config');
-// var models  = require('../models');
 var authCtrl = require('../controllers/authenticationController');
 var userCtrl = require('../controllers/userController');
 var combatCtrl = require('../controllers/combatController');

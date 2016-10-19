@@ -1,7 +1,6 @@
 'use strict';
 var config = require('../config/config');
 var mongoose = require('mongoose');
-var User = require('../models/user');
 
 // Combat Schema
 var CombatSchema = new mongoose.Schema({
@@ -16,7 +15,7 @@ var CombatSchema = new mongoose.Schema({
   },
   winner: Number,
   moves: [{
-      skillId; Number,
+      skillId: Number,
       fromUser: Number,
       toUser: Number,
       damage: Number,

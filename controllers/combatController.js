@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config/config');
 var mongoose = require('mongoose');
-var Combat = mongoose.model('Combat');
+var Combat = require('../models/combat');
 
 exports.createCombat = function(req, res) {
 	var newCombat = new Combat(req.body.combat);

@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config/config');
 var mongoose = require('mongoose');
-var Skill = mongoose.model('Skill');
+var Skill = require('../models/skill');
 
 exports.createSkill = function(req, res) {
   var newSkill = new Skill(req.body.skill);
