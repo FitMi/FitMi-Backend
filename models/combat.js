@@ -15,9 +15,9 @@ var CombatSchema = new mongoose.Schema({
   },
   winner: String,
   moves: [{
-      attackUser: Number,
-      skillId: Number,
-      defenceUser: Number,
+      attackUser: String,
+      skillId: String,
+      defenceUser: String,
       damage: Number,
       healing: Number,
       nextMoveResumeTime: Number
