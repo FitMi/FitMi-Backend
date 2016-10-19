@@ -3,14 +3,13 @@ var config = require('../config/config');
 var mongoose = require('mongoose');
 var Combat = mongoose.model('Combat');
 
-/*
+
 exports.createCombat = function(req, res) {
-	var newCombat = new Combat({
-  });
+	var newCombat = new Combat(req.body.combat);
   var promise = newCombat.save()
   promise
   .then(function(combat) {
-    return res.json();
+    return res.json(combat);
   })
   .catch(function(error) {
     return res.status(500).json({
@@ -18,7 +17,6 @@ exports.createCombat = function(req, res) {
     });
   });
 }
-*/
 
 exports.getCombat = function(req, res) {
 	Combat.findOne(

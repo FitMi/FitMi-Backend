@@ -31,7 +31,7 @@ router.post('/users/:id', verifyToken, userCtrl.updateUser);
 // Get friends
 router.get('/users/:id/friends', verifyToken, userCtrl.getFriends);
 // Add combat
-// router.get('/combat/create', verifyToken, combatCtrl.createCombat);
+router.post('/combat/create', verifyToken, combatCtrl.createCombat);
 // Get combat
 router.get('/combat/:id', verifyToken, combatCtrl.getCombat);
 
