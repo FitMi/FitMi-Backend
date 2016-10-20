@@ -17,7 +17,10 @@ var UserSchema = new mongoose.Schema({
   health: Number,
   experience: Number,
   level: Number,
-  skillInUse: Number,
+  skillInUse: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Skill'
+  },
   updatedAt: Date,
   createdAt: Date,
   lastCombatTime: Date
