@@ -7,7 +7,7 @@ var graph = require('fbgraph');
 exports.getUser = function(req, res) {
 	User.findOne(
     {
-      '_id': req.params.id
+      'facebookId': req.params.id
     }, function(err, user) {
       if (err) {
         return res.status(500).json({
@@ -60,7 +60,7 @@ exports.getFriends = function(req, res) {
         graph.batch([
 				  {
 				    method: "GET",
-				    relative_url: "me/friends?limit=50"
+				    relative_url: "me/friends"
 				  }
 				], function(err, graphRes) {
 				  if (err) {
