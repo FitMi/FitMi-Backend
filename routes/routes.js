@@ -24,12 +24,12 @@ router.get('/me', verifyToken, function(req, res) {
   res.send(req.user);
 });
 
+// Get friends
+router.get('/users/friends', verifyToken, userCtrl.getFriends);
 // Get user
 router.get('/users/:id', verifyToken, userCtrl.getUser);
 // Update user
 router.post('/users', verifyToken, userCtrl.updateUser);
-// Get friends
-router.get('/users/friends', verifyToken, userCtrl.getFriends);
 // Add combat
 router.post('/combats/create', verifyToken, combatCtrl.createCombat);
 // Get combat
