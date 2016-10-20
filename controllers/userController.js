@@ -69,8 +69,6 @@ exports.getFriends = function(req, res) {
 						})
 					}
 					friends = JSON.parse(graphRes[0].body).data;
-					friends.push({"name": 'JoJo', id: '1843175555914388'});
-					console.log(friends);
 					var query = User.find({}).select('facebookId level');
 					query.exec(function (err, users) {
 						if (!err){ 
