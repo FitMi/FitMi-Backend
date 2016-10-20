@@ -64,6 +64,12 @@ exports.getFriends = function(req, res) {
 				  }
 				], function(err, graphRes) {
 				  if (err) {
+            if (err.code === 190) {
+              // Need to re-authorize
+              return res.status(401).json({
+                message: 'Facebook Token Expired'
+              })
+            }
         		return res.status(500).json({
           		message: err.message
         		})

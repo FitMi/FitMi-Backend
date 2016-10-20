@@ -25,7 +25,7 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.methods.generateJwt = function() {
   var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
+  expiry.setDate(expiry.getDate() + 30); // 30 days
   var token = jwt.sign({
     _id: this._id,
     name: this.username,

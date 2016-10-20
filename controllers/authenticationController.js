@@ -1,7 +1,9 @@
 var graph = require('fbgraph');
 var User = require('../models/user');
+var jwt = require('jsonwebtoken');
+var config = require('../config/config');
 
-exports.authenticate = function (req, res) {  
+exports.authenticate = function (req, res) {
   if (!req.body.token) {
     return res.status(400).json({
       message: 'Invalid authenticate data.'
@@ -49,3 +51,27 @@ exports.authenticate = function (req, res) {
     });
   });
 }
+
+exports.refreshToken = function(req, res, next) {
+  let optionKeys = ['iat', 'exp', 'iss', 'sub'];
+  let obj = {};
+  let user = req.user;
+  let now = Math.floor(Date.now() / 1000);
+
+  let timeToExpire = (user['exp'] - now);
+
+  if (timeToExpire < (604800)) { // 7 day
+    for (let key in user) {
+      if (optionKeys.indexOf(key) === -1) {
+        obj[key] = user[key];
+      }
+    }
+
+    let options = {
+      expiresIn: '30d'
+    };
+    res.set('New-Token', jwt.sign(obj, config.secret, options));
+  }
+
+  next();
+};
