@@ -8,7 +8,9 @@ exports.getUser = function(req, res) {
 	User.findOne(
 		{
 			'facebookId': req.params.id
-		}, function(err, user) {
+		},
+    '_id facebookId level health health_limit agility appearance strength spritename stamina skillInUse',
+    function(err, user) {
 			if (err) {
 				return res.status(500).json({
 					message: err.message
@@ -41,67 +43,54 @@ exports.updateUser = function(req, res) {
 }
 
 exports.getFriends = function(req, res) {
-	User.findOne(
-		{
-			'_id': req.user._id
-		}, function(err, user) {
-			if (err) {
-				return res.status(500).json({
-					message: err.message
-				});
-			}
-			if (!user) {
-				res.send({
-					status: "error",
-					error: "User doesn't exist"
-				});
-			} else {
-				graph.setAccessToken(user.facebookToken);
-				graph.batch([
-					{
-						method: "GET",
-						relative_url: "me/friends"
-					}
-				], function(err, graphRes) {
+  User.findOne({
+    '_id': req.user._id
+  }, function(err, user) {
+    if (err) {
+      return res.status(500).json({
+        message: err.message
+      });
+    }
+    if (!user) {
+      res.send({
+        status: "error",
+        error: "User doesn't exist"
+      });
+    } else {
+      graph.setAccessToken(user.facebookToken);
+      graph.batch([{
+        method: "GET",
+        relative_url: "me/friends"
+      }], function(err, graphRes) {
+        if (err) {
+          if (err.code === 190) {
+            // Need to re-authorize
+            return res.status(401).json({
+              message: 'Facebook Token Expired'
+            })
+          }
+          return res.status(500).json({
+            message: err.message
+          })
+        }
+        friends = JSON.parse(graphRes[0].body).data;
+        let friendIdList = friends.map(f => f.id);
+        friendIdList.push('1214067008652251');
+        // Try get all existing users that is friend of the requested user.
+        var query = User.find({
+          facebookId: {
+            $in: friendIdList
+          }
+        }).select('_id username facebookId level');
+        query.exec(function(err, users) {
           if (err) {
-            if (err.code === 190) {
-              // Need to re-authorize
-              return res.status(401).json({
-                message: 'Facebook Token Expired'
-              })
-            }
-        		return res.status(500).json({
-          		message: err.message
-        		})
-        	}
-					friends = JSON.parse(graphRes[0].body).data;
-					var query = User.find({}).select('facebookId level');
-					query.exec(function (err, users) {
-						if (!err){
-							var friendExist = false;
-							for (var i = friends.length - 1; i >= 0; i--) {
-								friendExist = false;
-								for (var j = users.length - 1; j >= 0; j--) {
-									if (users[j].facebookId == friends[i].id) {
-										friendExist = true;
-										friends[i].level = users[j].level;
-										break;
-									}
-								};
-								if (!friendExist) {
-									friends.splice(i, 1);
-									console.log(friends);
-								}
-							};
-							return res.json(friends);
-						} else {
-							return res.status(500).json({
-								message: err.message
-							});
-						}
-					});
-				});
-			}
-		}
-	);
+            return res.status(500).json({
+              message: err.message
+            });
+          }
+          return res.json(users);
+        });
+      });
+    }
+  });
 };
