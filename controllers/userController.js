@@ -75,7 +75,6 @@ exports.getFriends = function(req, res) {
         }
         friends = JSON.parse(graphRes[0].body).data;
         let friendIdList = friends.map(f => f.id);
-        friendIdList.push('1214067008652251');
         // Try get all existing users that is friend of the requested user.
         var query = User.find({
           facebookId: {
