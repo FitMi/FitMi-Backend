@@ -19,6 +19,7 @@ var UserSchema = new mongoose.Schema({
   level: Number,
   skillInUse: Number,
   updatedAt: Date,
+  createdAt: Date,
   lastCombatTime: Date
 });
 
@@ -33,5 +34,28 @@ UserSchema.methods.generateJwt = function() {
   }, config.secret)
   return token;
 };
+
+UserSchema.pre('save', function(next){
+  var now = new Date();
+  this.updatedAt = now;
+  if ( !this.createdAt ) {
+    this.createdAt = now;
+  }
+  next();
+});
+
+UserSchema.pre('update', function (next) {
+   this.update({}, {
+     updatedAt: Date.now()
+   });
+   next();
+ });
+
+UserSchema.pre('findOneAndUpdate', function (next) {
+   this.update({}, {
+     updatedAt: Date.now()
+   });
+   next();
+ });
 
 module.exports = mongoose.model('User', UserSchema);
