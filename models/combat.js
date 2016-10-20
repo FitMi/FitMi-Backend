@@ -5,19 +5,39 @@ var mongoose = require('mongoose');
 // Combat Schema
 var CombatSchema = new mongoose.Schema({
   timestamp: Date,
-  fromUser: {
+  fromUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
   },
-  toUser: {
+  toUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
   },
-  winner: String,
+  fromUserStatus: {
+    displayName: String,
+    strength: Number,
+    stamina: Number,
+    health: Number,
+    health_limit: Number,
+    appearance: String,
+    level: String,
+    skills: [String]
+  },
+  toUserStatus: {
+    displayName: String,
+    strength: Number,
+    stamina: Number,
+    health: Number,
+    health_limit: Number,
+    appearance: String,
+    level: String,
+    skills: [String]
+  },
+  winner: String, // User _id
   moves: [{
-      attackUser: String,
+      attackUser: String, // User _id
       skillId: String,
-      defenceUser: String,
+      defenceUser: String, // User _id
       damage: Number,
       healing: Number,
       nextMoveResumeTime: Number

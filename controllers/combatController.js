@@ -6,10 +6,12 @@ var Combat = require('../models/combat');
 exports.createCombat = function(req, res) {
 	var newCombat = new Combat({
 		timestamp: Date.now(),
-		fromUser: req.body.combat.fromUser,
-		toUser: req.body.combat.toUser,
+		fromUserId: req.user._id,
+		toUserId: req.body.combat.toUserId,
+		fromUserStatus: req.body.combat.fromUserStatus,
+		toUserStatus: req.body.combat.toUserStatus,
 		winner: req.body.combat.winner,
-		moves: req.body.combat.moves,
+		moves: req.body.combat.moves
 	});
   var promise = newCombat.save()
   promise
@@ -35,7 +37,7 @@ exports.getCombat = function(req, res) {
         });
       }
       if (!combat) {
-      	res.send({
+      	res.status(400).end({
 					status: "error",
 					error: "Combat doesn't exist"
 				});
