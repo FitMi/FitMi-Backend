@@ -10,7 +10,6 @@ exports.authenticate = function (req, res) {
     });
   }
   var facebookToken = req.body.token;
-  console.log(facebookToken)
   graph.get("/me?fields=name,id,email&access_token=" + facebookToken, function (error, response) {
     if (error) {
       return res.status(400).json({
@@ -45,8 +44,10 @@ exports.authenticate = function (req, res) {
             });
           });
         } else {
-          //found user. Return
-          return res.json(user.generateJwt());
+          user.facebookToken = facebookToken; // update token
+          user.save().then(function() {
+            res.json(user.generateJwt());
+          });
         }
     });
   });
@@ -60,7 +61,7 @@ exports.refreshToken = function(req, res, next) {
 
   let timeToExpire = (user['exp'] - now);
 
-  if (timeToExpire < (604800)) { // 7 day
+  if (timeToExpire < (302400)) { // 7 day
     for (let key in user) {
       if (optionKeys.indexOf(key) === -1) {
         obj[key] = user[key];
