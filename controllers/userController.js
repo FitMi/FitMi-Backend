@@ -56,23 +56,20 @@ exports.getFriends = function(req, res) {
 					error: "User doesn't exist"
 				});
       } else {
-      	console.log(user.facebookToken)
       	graph.setAccessToken(user.facebookToken);
         graph.batch([
 				  {
 				    method: "GET",
-				    relative_url: "me/friends"
+				    relative_url: "me/friends?limit=50"
 				  }
 				], function(err, graphRes) {
-				  console.log(graphRes);
 				  if (err) {
         		return res.status(500).json({
           		message: err.message
         		})
         	}
-        	res.send({
-						status: "ok",
-					});
+        	friends = JSON.parse(graphRes[0].body).data;
+        	return res.json(friends);
 				});
       }
   	}
