@@ -1,9 +1,7 @@
 var graph = require('fbgraph');
 var User = require('../models/user');
 
-exports.authenticate = function (req, res) {
-  console.log(req.body)
-  
+exports.authenticate = function (req, res) {  
   if (!req.body.token) {
     return res.status(400).json({
       message: 'Invalid authenticate data.'
