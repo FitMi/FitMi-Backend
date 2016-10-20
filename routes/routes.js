@@ -36,5 +36,7 @@ router.post('/combats/create', verifyToken, authCtrl.refreshToken, combatCtrl.cr
 router.get('/combats/:id', verifyToken, authCtrl.refreshToken, combatCtrl.getCombat);
 // Add combat
 router.post('/skills/create', verifyToken, authCtrl.refreshToken, skillCtrl.createSkill);
+// Add combat
+router.get('/skills/:id', verifyToken, authCtrl.refreshToken, skillCtrl.getSkill);
 
 module.exports = router;
