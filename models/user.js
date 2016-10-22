@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   health: Number,
   healthLimit: Number,
   experience: Number,
-  appearance: Number,
+  appearance: String,
   level: Number,
   skillInUse: [String],
   updatedAt: Date,
