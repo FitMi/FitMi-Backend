@@ -9,7 +9,7 @@ exports.getUser = function(req, res) {
 		{
 			'facebookId': req.params.id
 		},
-    '_id facebookId level health health_limit agility appearance strength spritename stamina skillInUse',
+    '_id username facebookId level health health_limit agility appearance strength spritename stamina skillInUse',
     function(err, user) {
 			if (err) {
 				return res.status(500).json({
