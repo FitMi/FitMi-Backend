@@ -30,6 +30,12 @@ exports.getUser = function(req, res) {
 
 exports.updateUser = function(req, res) {
 	var query = { '_id': req.user._id };
+  if (!req.body.newData) {
+    res.send({
+      status: "error",
+      error: "Please input data for update"
+    });
+  }
 	User.findOneAndUpdate(query, req.body.newData, { upsert:true }, function(err, user) {
 			if (err) {
 				return res.status(500).json({
