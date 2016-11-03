@@ -9,7 +9,7 @@ exports.getUser = function(req, res) {
 		{
 			'facebookId': req.params.id
 		},
-    '_id username facebookId level health health_limit agility appearance strength spritename stamina skillInUse',
+    '_id username facebookId level health agility appearance strength spritename stamina skillInUse experience healthLimit',
     function(err, user) {
 			if (err) {
 				return res.status(500).json({
@@ -28,18 +28,133 @@ exports.getUser = function(req, res) {
 	});
 };
 
-exports.updateUser = function(req, res) {
-	var query = { '_id': req.user._id };
-	User.findOneAndUpdate(query, req.body.newData, { upsert:true }, function(err, user) {
-			if (err) {
-				return res.status(500).json({
-				 	message: err.message
-				})
-			}
-			res.send({
-				status: "ok",
-			});
-	});
+exports.updateUserSpritename = function(req, res) {
+  var query = { '_id': req.user._id };
+  if (!req.body.spritename) {
+    res.send({
+      status: "error",
+      error: "Please input new spritename for update"
+    });
+  }
+  var updateAttributes = { "spritename":req.body.spritename }
+  User.findOneAndUpdate(query, updateAttributes, { upsert:true }, function(err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        })
+      }
+      res.send({
+        status: "ok",
+      });
+  });
+}
+
+//(strength, stamina, agility, health, healthLimit)
+exports.updateUserAttributes = function(req, res) {
+  var query = { '_id': req.user._id };
+  var updateAttributes = {}
+  if (req.body.strength) {
+    updateAttributes['strength'] = req.body.strength
+  }
+  if (req.body.stamina) {
+    updateAttributes['stamina'] = req.body.stamina
+  }
+  if (req.body.agility) {
+    updateAttributes['agility'] = req.body.agility
+  }
+  if (req.body.health) {
+    updateAttributes['health'] = req.body.health
+  }
+  if (req.body.healthLimit) {
+    updateAttributes['healthLimit'] = req.body.healthLimit
+  }
+  if (!updateAttributes.strength && !updateAttributes.stamina && !updateAttributes.agility && !updateAttributes.health && !updateAttributes.healthLimit) {
+    res.send({
+      status: "error",
+      error: "Please input attributes for update"
+    });
+  }
+
+  User.findOneAndUpdate(query, updateAttributes, { upsert:true }, function(err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        })
+      }
+      res.send({
+        status: "ok",
+      });
+  });
+}
+
+exports.updateUserSkills = function(req, res) {
+  var query = { '_id': req.user._id };
+  if (!req.body.skills) {
+    res.send({
+      status: "error",
+      error: "Please input skills in used for update"
+    });
+  }
+  var updateAttributes = { "skillInUse":req.body.skills }
+  User.findOneAndUpdate(query, updateAttributes, { upsert:true }, function(err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        })
+      }
+      res.send({
+        status: "ok",
+      });
+  });
+}
+
+exports.updateUserAppearance = function(req, res) {
+  var query = { '_id': req.user._id };
+  if (!req.body.appearance) {
+    res.send({
+      status: "error",
+      error: "Please input appearance for update"
+    });
+  }
+  var updateAttributes = { "appearance":req.body.appearance }
+  User.findOneAndUpdate(query, updateAttributes, { upsert:true }, function(err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        })
+      }
+      res.send({
+        status: "ok",
+      });
+  });
+}
+
+exports.updateUserLevelExperience = function(req, res) {
+  var query = { '_id': req.user._id };
+  var updateAttributes = {}
+  if (req.body.level) {
+    updateAttributes['level'] = req.body.level
+  }
+  if (req.body.experience) {
+    updateAttributes['experience'] = req.body.experience
+  }
+  if (!updateAttributes.level && !updateAttributes.experience) {
+    res.send({
+      status: "error",
+      error: "Please input level / experience for update"
+    });
+  }
+
+  User.findOneAndUpdate(query, updateAttributes, { upsert:true }, function(err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: err.message
+        })
+      }
+      res.send({
+        status: "ok",
+      });
+  });
 }
 
 exports.getFriends = function(req, res) {
