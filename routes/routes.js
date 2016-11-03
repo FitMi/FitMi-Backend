@@ -28,15 +28,19 @@ router.get('/me', verifyToken, authCtrl.refreshToken, function(req, res) {
 router.get('/users/friends', verifyToken, authCtrl.refreshToken, userCtrl.getFriends);
 // Get user
 router.get('/users/:id', verifyToken, authCtrl.refreshToken, userCtrl.getUser);
-// Update user
-router.post('/users', verifyToken, authCtrl.refreshToken, userCtrl.updateUser);
+// Update user spritename
+router.post('/users/spritename', verifyToken, authCtrl.refreshToken, userCtrl.updateUserSpritename);
+// Update user mi attributes (strength, stamina, agility, health, healthLimit)
+router.post('/users/attributes', verifyToken, authCtrl.refreshToken, userCtrl.updateUserAttributes);
+// Update user skills is used in use
+router.post('/users/skills', verifyToken, authCtrl.refreshToken, userCtrl.updateUserSkills);
+// Update user appearance
+router.post('/users/appearance', verifyToken, authCtrl.refreshToken, userCtrl.updateUserAppearance);
+// Update user level and experience
+router.post('/users/level_experience', verifyToken, authCtrl.refreshToken, userCtrl.updateUserLevelExperience);
 // Add combat
 router.post('/combats/create', verifyToken, authCtrl.refreshToken, combatCtrl.createCombat);
 // Get combat
 router.get('/combats/:id', verifyToken, authCtrl.refreshToken, combatCtrl.getCombat);
-// Add combat
-router.post('/skills/create', verifyToken, authCtrl.refreshToken, skillCtrl.createSkill);
-// Add combat
-router.get('/skills/:id', verifyToken, authCtrl.refreshToken, skillCtrl.getSkill);
 
 module.exports = router;
